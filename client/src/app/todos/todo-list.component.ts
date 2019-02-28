@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TodoListService} from './todo-list.service';
-import {Todo} from './todo';
+import {Todo} from "./todo";
 import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
 import {AddTodoComponent} from './add-todo.component';
@@ -41,7 +41,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: '', body: '', category: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: true, body: '', category: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}

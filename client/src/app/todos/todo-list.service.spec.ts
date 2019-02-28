@@ -31,10 +31,10 @@ describe('Todo list service: ', () => {
     }
   ];
   const mTodos: Todo[] = testTodos.filter(todo =>
-    todo.company.toLowerCase().indexOf('m') !== -1
+    todo.body.toLowerCase().indexOf('m') !== -1
   );
 
-  // We will need some url information from the todoListService to meaningfully test company filtering;
+  // We will need some url information from the todoListService to meaningfully test body filtering;
   // https://stackoverflow.com/questions/35987055/how-to-write-unit-testing-for-angular-2-typescript-for-private-methods-with-ja
   let todoListService: TodoListService;
   let currentlyImpossibleToGenerateSearchTodoUrl: string;
@@ -85,7 +85,7 @@ describe('Todo list service: ', () => {
 
   it('getTodoById()(getTodoByID()) calls api/todo/id', () => {
     const targetTodo: Todo = testTodos[1];
-    const targetId: string = targetTodo.id;
+    const targetId: string = targetTodo._id;
     todoListService.getTodoById(targetId).subscribe(
       todo => expect(todo).toBe(targetTodo)
     );

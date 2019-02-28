@@ -54,10 +54,10 @@ describe('Add todo component', () => {
       fixture.detectChanges();
 
       let form: NgForm = debug.children[0].injector.get(NgForm);
-      let control = form.control.get('company');
+      let control = form.control.get('body');
       expect(control.hasError('notPeeskillet')).toBe(true);
       expect(form.control.valid).toEqual(false);
-      expect(form.control.hasError('notPeeskillet', ['company'])).toEqual(true);
+      expect(form.control.hasError('notPeeskillet', ['body'])).toEqual(true);
 
       input.nativeElement.value = 'peeskillet';
       dispatchEvent(input.nativeElement);
@@ -65,7 +65,7 @@ describe('Add todo component', () => {
 
       expect(control.hasError('notPeeskillet')).toBe(false);
       expect(form.control.valid).toEqual(true);
-      expect(form.control.hasError('notPeeskillet', ['email'])).toEqual(false);
+      expect(form.control.hasError('notPeeskillet', ['category'])).toEqual(false);
     });
   });
 });
