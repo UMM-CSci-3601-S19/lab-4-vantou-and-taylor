@@ -1,0 +1,53 @@
+<!-- example from
+https://github.com/AngularTemplates/angular-forms-and-validations/blob/master/src/app/form-component/form.component.html
+is potentially helpful and contributed to the shaping of this example -->
+<div class="add-todo">
+  <form [formGroup]="addTodoForm">
+    <h2 mat-dialog-title>New Todo</h2>
+    <mat-dialog-content layout="column">
+      <mat-form-field flex>
+        <input matInput #input id="ownerField" placeholder="Owner" [(ngModel)]="data.todo.owner" formControlName="owner"
+               required>
+        <mat-error *ngFor="let validation of add_todo_validation_messages.owner">
+          <mat-error class="error-message" id="owner-error"
+                     *ngIf="addTodoForm.get('owner').hasError(validation.type) && (addTodoForm.get('owner').dirty || addTodoForm.get('owner').touched)">
+            {{validation.message}}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field flex>
+        <input matInput #input id="statusField" type="text" placeholder="Status" [(ngModel)]="data.todo.status"
+               formControlName="status">
+        <mat-error *ngFor="let validation of add_todo_validation_messages.status">
+          <mat-error class="error-message" id="status-error"
+                     *ngIf="addTodoForm.get('status').hasError(validation.type) && (addTodoForm.get('status').dirty || addTodoForm.get('status').touched)">
+            {{validation.message}}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field flex>
+        <input matInput #input id="bodyField" placeholder="Body" [(ngModel)]="data.todo.body"
+               formControlName="body">
+      </mat-form-field>
+      <mat-form-field flex>
+        <input matInput #input id="categoryField" placeholder="Category" [(ngModel)]="data.todo.category"
+               formControlName="category">
+        <mat-error *ngFor="let validation of add_todo_validation_messages.category">
+          <mat-error class="error-message" id='category-error'
+                     *ngIf="addTodoForm.get('category').hasError(validation.type) && (addTodoForm.get('category').dirty || addTodoForm.get('category').touched)">
+            {{validation.message}}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions layout="row">
+      <!-- [mat-dialog-close]="data.todo" causes the data.todo object to be returned when the dialog is closed. -->
+      <button mat-raised-button id="confirmAddTodoButton" [mat-dialog-close]="data.todo" type="button" color="primary"
+              [disabled]="!addTodoForm.valid">Add Todo
+      </button>
+      <!-- [mat-dialog-close]="null" causes null to be returned when the dialog is closed. -->
+      <button mat-raised-button id="exitWithoutAddingButton" [mat-dialog-close]="null" type="button">Cancel</button>
+    </mat-dialog-actions>
+  </form>
+</div>
+

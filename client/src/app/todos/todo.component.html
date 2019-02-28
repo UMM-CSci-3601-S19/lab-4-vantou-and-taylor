@@ -1,7 +1,6 @@
-<div *ngIf="todo" class="todo">
-  <ul>
-    <li>Name: {{ todo.owner }}</li>
-    <li>Age: {{ todo.category}}</li>
-    <li>Company: {{ todo.id }}</li>
-  </ul>
-</div>
+<mat-list *ngIf="todo" #todos>
+  <mat-list-item>Owner: {{ todo.owner }}</mat-list-item>
+  <mat-list-item>Status: {{ todo.status }}</mat-list-item>
+  <mat-list-item>Body: {{ todo.body }}</mat-list-item>
+  <mat-list-item>Category: {{ todo.category }}</mat-list-item>
+</mat-list>
