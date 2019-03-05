@@ -12,3 +12,18 @@
   padding-right: 14px;
 }
 
+#todo-list-title {
+  padding: 30px;
+  background-color: #990000;
+}
+
+#addNewTodo{
+  padding: 30px;
+  background-color: lightcoral
+}
+
+.owner1{
+  padding: 30px;
+  background-color: lightcoral
+}
+

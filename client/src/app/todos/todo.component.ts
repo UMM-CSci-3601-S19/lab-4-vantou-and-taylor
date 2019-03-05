@@ -3,7 +3,7 @@ import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
 
 @Component({
-  selector: 'app-todo-component',
+  selector: 'todo-component',
   styleUrls: ['./todo.component.css'],
   templateUrl: 'todo.component.html'
 })
@@ -12,12 +12,12 @@ export class TodoComponent implements OnInit {
   private id: string;
 
   constructor(private todoListService: TodoListService) {
-    // this.users = this.userListService.getUsers();
+    // this.todos = this.todoListService.getTodos();
   }
 
   private subscribeToServiceForId() {
     if (this.id) {
-      this.todoListService.getUserById(this.id).subscribe(
+      this.todoListService.getTodoById(this.id).subscribe(
         todo => this.todo = todo,
         err => {
           console.log(err);
