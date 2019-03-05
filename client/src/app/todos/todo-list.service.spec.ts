@@ -31,10 +31,10 @@ describe('Todo list service: ', () => {
     }
   ];
   const mTodos: Todo[] = testTodos.filter(todo =>
-    todo.company.toLowerCase().indexOf('m') !== -1
+    todo.body.toLowerCase().indexOf('m') !== -1
   );
 
-  // We will need some url information from the todoListService to meaningfully test company filtering;
+  // We will need some url information from the todoListService to meaningfully test body filtering;
   // https://stackoverflow.com/questions/35987055/how-to-write-unit-testing-for-angular-2-typescript-for-private-methods-with-ja
   let todoListService: TodoListService;
   let currentlyImpossibleToGenerateSearchTodoUrl: string;
@@ -85,7 +85,7 @@ describe('Todo list service: ', () => {
 
   it('getTodoById()(getTodoByID()) calls api/todo/id', () => {
     const targetTodo: Todo = testTodos[1];
-    const targetId: string = targetTodo.id;
+    const targetId: string = targetTodo._id;
     todoListService.getTodoById(targetId).subscribe(
       todo => expect(todo).toBe(targetTodo)
     );
@@ -94,5 +94,37 @@ describe('Todo list service: ', () => {
     const req = httpTestingController.expectOne(expectedUrl);
     expect(req.request.method).toEqual('GET');
     req.flush(targetTodo);
+  });
+
+
+  it('getTodos(todoBody) adds appropriate param string to called URL', () => {
+    todoListService.getTodos('m').subscribe(
+      todos => expect(todos).toEqual(mTodos)
+    );
+
+    const req = httpTestingController.expectOne(todoListService.baseUrl + '?body=m&');
+    expect(req.request.method).toEqual('GET');
+    req.flush(mTodos);
+  });
+
+  it('filterByBody(todoBody) deals appropriately with a URL that already had a body', () => {
+    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?body=f&something=k&';
+    todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
+    todoListService.filterByBody('m');
+    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&body=m&');
+  });
+
+  it('filterByBody(todoBody) deals appropriately with a URL that already had some filtering, but no body', () => {
+    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?something=k&';
+    todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
+    todoListService.filterByBody('m');
+    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '?something=k&body=m&');
+  });
+
+  it('filterByBody(todoBody) deals appropriately with a URL has the keyword body, but nothing after the =', () => {
+    currentlyImpossibleToGenerateSearchTodoUrl = todoListService.baseUrl + '?body=&';
+    todoListService['todoUrl'] = currentlyImpossibleToGenerateSearchTodoUrl;
+    todoListService.filterByBody('');
+    expect(todoListService['todoUrl']).toEqual(todoListService.baseUrl + '');
   });
 });

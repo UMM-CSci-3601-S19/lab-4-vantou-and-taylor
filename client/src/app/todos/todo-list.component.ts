@@ -41,7 +41,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: '', body: '', category: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: true, body: '', category: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -90,28 +90,33 @@ export class TodoListComponent implements OnInit {
       this.filteredTodos = this.filteredTodos.filter(todo => {
         return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
       });
-
-
     }
+
     if (searchCategory != null) {
       searchCategory = searchCategory.toLocaleLowerCase();
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
         return !searchCategory || todo.category.toLowerCase().indexOf(searchCategory) !== -1;
       });
-
-
     }
-    // Filter by status
+
     if (searchStatus != null) {
-      if(searchStatus.toLocaleLowerCase() == "true" || "false") {
+      if (searchStatus.toLocaleLowerCase() == "Complete") {
         var searchStatusStatus = searchStatus == "true";
         this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
           return !searchStatus || todo.status == searchStatusStatus;
         });
       }
 
+      if (searchStatus.toLocaleLowerCase() == "Incomplete") {
+        var searchStatusStatus = searchStatus == "false";
+        this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
+          return !searchStatus || todo.status == searchStatusStatus;
+        });
+      }
     }
+
+
     // Filter by ID
     if (searchID != null) {
       this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
