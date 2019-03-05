@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material';
 import {AddTodoComponent} from './add-todo.component';
 
 @Component({
-  selector: 'app-todo-list-component',
+  selector: 'todo-list-component',
   templateUrl: 'todo-list.component.html',
   styleUrls: ['./todo-list.component.css'],
 })
@@ -19,7 +19,7 @@ export class TodoListComponent implements OnInit {
   public todoOwner: string;
   public todoBody: string;
   public todoStatus: string;
-  public todoID: string;
+ // public todoID: string;
   public todoCategory: string;
 
   private highlightedID: string = '';
@@ -41,7 +41,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: true, body: '', category: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: null, body: '', category: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -57,7 +57,7 @@ export class TodoListComponent implements OnInit {
           err => {
             // This should probably be turned into some sort of meaningful response.
             console.log('There was an error adding the todo.');
-            console.log('The newTodo or dialogResult was ' + newTodo);
+            console.log('The newTodo or dialogResult was ' + JSON.stringify(newTodo));
             console.log('The error was ' + JSON.stringify(err));
           });
       }
@@ -67,7 +67,6 @@ export class TodoListComponent implements OnInit {
   public filterTodos(searchOwner: string,
                      searchBody: string,
                      searchStatus: string,
-                     searchID: string,
                      searchCategory: string
   )
   : Todo[] {
@@ -101,28 +100,25 @@ export class TodoListComponent implements OnInit {
     }
 
     if (searchStatus != null) {
-      if (searchStatus.toLocaleLowerCase() == "Complete") {
-        var searchStatusStatus = searchStatus == "true";
+      searchStatus = searchStatus.toLocaleLowerCase();
         this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
-          return !searchStatus || todo.status == searchStatusStatus;
+          if(searchStatus == "complete") {
+            return !searchStatus || todo.status == true;
+          }
+          if(searchStatus == "incomplete") {
+            return !searchStatus || todo.status == false;
+          }
         });
       }
 
-      if (searchStatus.toLocaleLowerCase() == "Incomplete") {
-        var searchStatusStatus = searchStatus == "false";
-        this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
-          return !searchStatus || todo.status == searchStatusStatus;
-        });
-      }
-    }
 
 
-    // Filter by ID
-    if (searchID != null) {
-      this.filteredTodos = this.filteredTodos.filter((todo: Todo) => {
-        return !searchID || todo._id.toLowerCase().indexOf(searchID) !== -1;
-      });
-    }
+    // // Filter by ID
+    // if (searchID != null) {
+    //   this.filteredTodos = this.filteredTodos.filter((todos: Todos) => {
+    //     return !searchID || todos._id.toLowerCase().indexOf(searchID) !== -1;
+    //   });
+    // }
 
     return this.filteredTodos;
   }
@@ -140,9 +136,9 @@ export class TodoListComponent implements OnInit {
 
     const todos: Observable<Todo[]> = this.todoListService.getTodos();
     todos.subscribe(
-      returnedTodos => {
-        this.todos = returnedTodos;
-        this.filterTodos(this.todoOwner, this.todoBody, this.todoStatus, this.todoID, this.todoCategory);
+      todos => {
+        this.todos = todos;
+        this.filterTodos(this.todoOwner, this.todoBody, this.todoStatus, this.todoCategory);
       },
       err => {
         console.log(err);

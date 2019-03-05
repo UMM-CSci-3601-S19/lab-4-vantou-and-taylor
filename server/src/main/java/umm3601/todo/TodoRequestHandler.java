@@ -79,11 +79,14 @@ public class TodoRequestHandler {
     Document newTodo = Document.parse(req.body());
 
     String owner = newTodo.getString("owner");
-    int status = newTodo.getInteger("status");
+    String status = newTodo.getString("status");
     String body = newTodo.getString("body");
     String category = newTodo.getString("category");
+    Boolean statusBool = Boolean.parseBoolean(status);
 
-    System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " body=" + body + " category=" + category + ']');
-    return todoController.addNewTodo(owner, status, body, category);
+
+
+    System.err.println("Adding new todo owner=" + owner + ", status=" + status + " body=" + body + " category=" + category + ']');
+    return todoController.addNewTodo(owner, statusBool, body, category);
   }
 }

@@ -16,7 +16,7 @@ is potentially helpful and contributed to the shaping of this example -->
         </mat-error>
       </mat-form-field>
       <mat-form-field flex>
-        <input matInput #input id="statusField" type="text" placeholder="Status" [(ngModel)]="data.todo.status"
+        <input matInput #input id="statusField" placeholder="Status" [(ngModel)]="data.todo.status"
                formControlName="status">
         <mat-error *ngFor="let validation of add_todo_validation_messages.status">
           <mat-error class="error-message" id="status-error"
@@ -41,7 +41,7 @@ is potentially helpful and contributed to the shaping of this example -->
       </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions layout="row">
-      <!-- [mat-dialog-close]="data.todo" causes the data.todo object to be returned when the dialog is closed. -->
+      <!-- [mat-dialog-close]="data.todos" causes the data.todos object to be returned when the dialog is closed. -->
       <button mat-raised-button id="confirmAddTodoButton" [mat-dialog-close]="data.todo" type="button" color="primary"
               [disabled]="!addTodoForm.valid">Add Todo
       </button>

@@ -4,49 +4,41 @@
 
 <div layout-gt-sm="row">
   <div flex-gt-sm="80" flex-offset-gt-sm="10">
-    <mat-card>
+    <div>
+      <mat-card>
       <mat-card-title id="todo-list-title">Todos</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
         <mat-form-field>
-          <input matInput id="todoOwner" #input placeholder="Filter by owner"
+          <input matInput id="todoOwner" #input type="text" placeholder="Filter by owner"
                  (input)="todoOwner = $event.target.value">
         </mat-form-field>
         <mat-form-field>
-          <input matInput id="todoBody" #input type="string" placeholder="by body"
+          <input matInput id="todoBody" #input type="text" placeholder="Filter by body"
                  (input)="todoBody = $event.target.value">
         </mat-form-field>
-
         <mat-form-field>
-          <input matInput id="todoStatus" #input type="string" placeholder="by status (true/false)"
+          <input matInput id="todoStatus" #input type="text" placeholder="Filter by status (Complete/Incomplete)"
                  (input)="todoStatus = $event.target.value">
         </mat-form-field>
-
-        <!--
-        <input matInput id="todoID" #input type="string" placeholder="by id"
-                (input)="todoID = $event.target.value">
-       </mat-form-field>-->
         <mat-form-field>
-          <input matInput id="todoCategory" #input type="string" placeholder="by category"
+          <input matInput id="todoCategory" #input type="text" placeholder="Filter by category"
                  (input)="todoCategory = $event.target.value">
         </mat-form-field>
+        <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit
+        </button>
 
+        <div *ngIf="todos; else todosError">
+          <mat-card #elem [id]="todos"  *ngFor="let todo of this.filterTodos(todoOwner, todoBody, todoStatus, todoCategory)">
 
-        <mat-accordion *ngIf="todos; else usersError">
-          <mat-expansion-panel #elem [id]="todo.id" *ngFor="let todo of this.filterUsers(todoOwner, todoBody, todoStatus, null, todoCategory)">
-            <mat-expansion-panel-header>
+              <mat-card-title class="owner1"> {{todo.owner}} </mat-card-title>
 
-              <mat-panel-title matTooltip="category: {{todo.category}}" id="todoMatBody">{{todo.body}}</mat-panel-title>
-
-            </mat-expansion-panel-header>
-            <mat-panel-description id="todoMatOwner">Works for {{todo.owner}}</mat-panel-description>
-            <mat-panel-description>Category: {{todo.category}}</mat-panel-description>
-            <mat-panel-description>Status: {{todo.status}}</mat-panel-description>
-
-
-
-          </mat-expansion-panel>
-        </mat-accordion>
+            <mat-card-content>Category: {{todo.category}}</mat-card-content>
+            <mat-card-content>Status: {{todo.status}}</mat-card-content>
+            <mat-card-content>Owner: {{todo.owner}}</mat-card-content>
+            <mat-card-content>Body: {{todo.body}}</mat-card-content>
+          </mat-card>
+        </div>
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
         <ng-template #usersError>
           <mat-error>

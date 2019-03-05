@@ -28,8 +28,8 @@ export class AddTodoComponent implements OnInit {
     ],
 
     'status': [
-      {type: 'required', message: 'Status is required'},
-      {type: 'pattern', message: 'Status is Complete or Incomplete'}
+      {type: 'pattern', message: 'Status is true or false'},
+      {type: 'required', message: 'Status is required'}
     ],
 
     'category': [
@@ -52,7 +52,7 @@ export class AddTodoComponent implements OnInit {
 
       // Since this is for a body, we need status
       status: new FormControl('status', Validators.compose([
-        Validators.pattern('^[Complete\\s]+^[Incomplete\\s]'),
+        Validators.pattern('[true, false, True, False]+'),
         Validators.required
       ])),
 

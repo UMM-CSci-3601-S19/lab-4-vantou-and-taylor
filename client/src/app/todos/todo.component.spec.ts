@@ -1,9 +1,10 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 import {Todo} from './todo';
 import {TodoComponent} from './todo.component';
 import {TodoListService} from './todo-list.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {CustomModule} from "../custom.module";
 
 describe('Todo component', () => {
 
@@ -43,6 +44,7 @@ describe('Todo component', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [CustomModule],
       declarations: [TodoComponent],
       providers: [{provide: TodoListService, useValue: todoListServiceStub}]
     });
