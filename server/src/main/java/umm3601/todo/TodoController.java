@@ -68,7 +68,7 @@ public class TodoController {
     Document filterDoc = new Document();
 
     if (queryParams.containsKey("status")) {
-      String targetStatus = queryParams.get("status")[0];
+      Boolean targetStatus = Boolean.parseBoolean(queryParams.get("status")[0]);
       filterDoc = filterDoc.append("status", targetStatus);
     }
 
